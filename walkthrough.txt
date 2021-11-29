@@ -1,0 +1,209 @@
+# Initialize front end
+
+yarn create react-app client --template typescript
+
+cd client
+
+yarn add redux react-redux redux-thunk @types/react-redux @types/redux-thunk @reduxjs/toolkit
+
+https://react-redux.js.org/using-react-redux/usage-with-typescript
+
+
+# Define Root State and Dispatch Types
+
+mkdir store
+
+touch ./store/index.ts
+
+
+# Define Typed Hooks
+
+mkdir hooks
+
+touch ./hooks/index.ts
+
+
+# Typing the connect higher order component !!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Install Client packages
+
+/home/jamesm/rf_auth_typescript/client
+venv ❯ yarn add axios react-router-dom redux react-redux redux-thunk formik yup dayjs node-sass materialize-css@next concurrently
+
+
+# React Proxy Configuration
+# The React project can be configured to redirect any requests it receives on its port 3000 that it does not understand into another server. 
+# This is configured simply by adding a proxy key at the bottom package.json:
+
+/rf_auth_typescript/client/package.json
+
+"proxy": "http://localhost:5000"
+
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start_api": "cd ../api && venv/bin/flask run --no-debugger",
+    "dev": "concurrently \"yarn start_api\" \"yarn start\""
+},
+
+
+
+
+# Configure Project for Git
+
+# Remove .git folder from create-react-app
+
+/home/jamesm/rf_auth_typescript/client
+venv ❯ sudo rm -rf .git
+
+cd ../api
+
+touch .gitignore
+
+cd ..
+
+/home/jamesm/rf_auth_typescript
+
+echo "# rf_auth_typescript" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:Mister905/rf_auth_typescript.git
+git push -u origin main
+
+
+(venv)  jamesm  ~/rf_auth_typescript   main  git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        api/
+        client/
+        walkthrough.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+
+
+npm i concurrently
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Initialize Back end
+
+jamesm  ~/rf_auth_typescript  pwd
+/home/jamesm/rf_auth_typescript
+
+mkdir api
+
+cd api
+
+
+# Create and Activate Virtual Environment
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+
+# Set Interpeter PAth in VS Code to venv
+https://code.visualstudio.com/docs/python/environments
+
+/home/james/rf_auth_typescript/api/venv/bin/python3
+
+
+
+# If python-dotenv is installed, running the flask command will set environment variables defined in the files .env and .flaskenv
+
+(venv)  jamesm  ~/rf_auth_typescript/api  pip install flask python-dotenv
+venv ❯ pip install flask python-dotenv 
+
+
+# Flask imports the application from the location defined by the FLASK_APP environment variable. 
+To avoid having to manually set this variable every time, create a .flaskenv file, which Flask automatically 
+imports into the environment on startup if it finds the python-dotenv package installed.
+
+venv ❯ touch .flaskenv
+
+FLASK_APP=run.py
+FLASK_ENV=development
+JWT_SECRET_KEY=YDwzJwu7bnMRE4ZS
+
+
+
+# Initialize Flask app
+
+venv ❯ touch __init__.py
+
+
+
+# To complete the application, you need to have a Python script at the top-level that defines the Flask application instance. 
+# Let's call this script run.py, and define it as a single line that imports the application instance
+
+~/rfa/api
+venv ❯ touch run.py
+
+
+
+# At this point this basic Flask project is complete. To make sure that it is working well you can start it
+
+flask run
+
+
+# Install Frozen Requirements
+
+/home/jamesm/rf_auth_typescript
+
+touch frozen_requirements.txt
+
+pip install -r frozen_requirements.txt
+
+
+
+# Flask Migrate Config
+
+/home/jamesm/rf_auth_typescript/api
+
+flask db init
+
+flask db_create
+
+flask db_seed

@@ -1,0 +1,3 @@
+FLASK_APP=run.py
+FLASK_ENV=development
+JWT_SECRET_KEY=YDwzJwu7bnMRE4ZS
