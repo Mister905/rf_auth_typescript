@@ -1,13 +1,42 @@
 import { Action_Type } from "../action_types";
 
-interface I_load_active_user {
+interface I_user {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface I_user_loaded_payload {
+  user: I_user;
+}
+
+interface I_user_loaded {
   type: Action_Type.USER_LOADED;
-  payload: object;
+  payload: I_user_loaded_payload;
+}
+
+interface I_login_success_payload {
+  user: I_user;
+  access_token: string;
 }
 
 interface I_login_success {
   type: Action_Type.LOGIN_SUCCESS;
-  payload: object;
+  payload: I_login_success_payload;
+}
+
+
+
+
+
+
+
+
+interface I_load_active_user {
+  type: Action_Type.USER_LOADED;
+  payload: {
+    user: I_user;
+  };
 }
 
 interface I_login_fail {
@@ -17,11 +46,6 @@ interface I_login_fail {
 
 interface I_logout {
   type: Action_Type.LOGOUT;
-  payload: object;
-}
-
-interface I_user_loaded {
-  type: Action_Type.USER_LOADED;
   payload: object;
 }
 

@@ -1,146 +1,56 @@
+import { Action } from "../action_interfaces/auth_interface";
 import { Action_Type } from "../action_types";
 
 
+interface I_user {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
 
+interface I_initial_state {
+  access_token: string | null;
+  is_authenticated: boolean;
+  loading_user: boolean;
+  user: I_user | null;
+}
 
+const initial_state: I_initial_state = {
+  access_token: localStorage.getItem("token"),
+  is_authenticated: false,
+  loading_user: true,
+  user: null,
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import {
-//     DISPLAY_MODAL,
-//     LOGIN_SUCCESS,
-//     USER_LOADED,
-//     AUTH_ERROR,
-//     LOGOUT,
-//   } from "./types";
-  
-//   import instance from "../utils/axios";
-  
-//   export const load_active_user = () => async (dispatch) => {
-//     try {
-//       const res = await instance.get("/auth/load_active_user");
-  
-//       dispatch({
-//         type: USER_LOADED,
-//         payload: res.data,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//       dispatch({
-//         type: AUTH_ERROR,
-//       });
-//     }
-//   };
-  
-//   export const login_user = (form_data, history) => async (dispatch) => {
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
-  
-//     let request_body = JSON.stringify(form_data);
-  
-//     try {
-//       const res = await instance.post("/auth/login", request_body, config);
-  
-//       if (res.data.error) {
-//         dispatch({
-//           type: DISPLAY_MODAL,
-//           payload: {
-//             modal_title: "Error",
-//             modal_body: "Unable to login",
-//             modal_confirmation: "Ok",
-//           },
-//         });
-//       } else {
-//         dispatch({
-//           type: LOGIN_SUCCESS,
-//           payload: res.data,
-//         });
-  
-//         history.push("/products");
-//       }
-//     } catch (error) {
-//       dispatch({
-//         type: DISPLAY_MODAL,
-//         payload: {
-//           modal_title: "Error",
-//           modal_body: "Unable to login",
-//           modal_confirmation: "Ok",
-//         },
-//       });
-//     }
-//   };
-  
-//   export const register_user = (form_data, history) => async (dispatch) => {
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
-  
-//     let request_body = JSON.stringify(form_data);
-  
-//     try {
-//       const res = await instance.post("/auth/register", request_body, config);
-  
-//       if (res.data.error) {
-//         dispatch({
-//           type: DISPLAY_MODAL,
-//           payload: {
-//             modal_title: "Error",
-//             modal_body: res.data.message,
-//             modal_confirmation: "Ok",
-//           },
-//         });
-//       } else {
-//         history.push("/login");
-//         dispatch({
-//           type: DISPLAY_MODAL,
-//           payload: {
-//             modal_title: "Success",
-//             modal_body: res.data.message,
-//             modal_confirmation: "Ok",
-//           },
-//         });
-//       }
-//     } catch (error) {
-//       dispatch({
-//         type: DISPLAY_MODAL,
-//         payload: {
-//           modal_title: "Error",
-//           modal_body: "Unable to complete registration",
-//           modal_confirmation: "Ok",
-//         },
-//       });
-//     }
-//   };
-  
-//   export const logout_user = (history) => async (dispatch) => {
-//     dispatch({ type: LOGOUT });
-//     history.push("/");
-//   };
+export const reducer = (state: I_initial_state = initial_state, action: Action) => {
+  switch (action.type) {
+    case Action_Type.USER_LOADED:
+      return {
+        ...state,
+        is_authenticated: true,
+        loading_user: false,
+        user: action.payload.user,
+      };
+    case Action_Type.LOGIN_SUCCESS:
+      localStorage.setItem("token", action.payload.access_token);
+      return {
+        ...state,
+        access_token: action.payload.access_token,
+        is_authenticated: true,
+        loading_user: false,
+        user: action.payload.user,
+      };
+    case Action_Type.LOGIN_FAIL:
+    case Action_Type.LOGOUT:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        access_token: null,
+        is_authenticated: false,
+        user: null,
+        loading_user: true,
+      };
+    default:
+      return state;
+  }
+};
