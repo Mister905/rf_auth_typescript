@@ -33,4 +33,13 @@ interface I_logout {
   type: Action_Type.LOGOUT;
 }
 
-export type Action = I_login_success | I_login_fail | I_logout | I_user_loaded;
+interface I_auth_error {
+  type: Action_Type.AUTH_ERROR;
+}
+
+export type Auth_Action =
+  | I_login_success
+  | I_login_fail
+  | I_logout
+  | I_user_loaded
+  | I_auth_error;
