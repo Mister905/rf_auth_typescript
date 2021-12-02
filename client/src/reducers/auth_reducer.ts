@@ -1,7 +1,6 @@
 import { Action } from "../action_interfaces/auth_interface";
 import { Action_Type } from "../action_types";
 
-
 interface I_user {
   first_name: string;
   last_name: string;
@@ -22,7 +21,10 @@ const initial_state: I_initial_state = {
   user: null,
 };
 
-export const reducer = (state: I_initial_state = initial_state, action: Action) => {
+export default function (
+  state: I_initial_state = initial_state,
+  action: Action
+) {
   switch (action.type) {
     case Action_Type.USER_LOADED:
       return {
@@ -53,4 +55,4 @@ export const reducer = (state: I_initial_state = initial_state, action: Action) 
     default:
       return state;
   }
-};
+}
