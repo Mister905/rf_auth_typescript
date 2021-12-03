@@ -1,7 +1,6 @@
 import { Auth_Action } from "../action_interfaces/auth_interface";
 import { Action_Type } from "../action_types";
 
-
 interface I_user {
   first_name: string;
   last_name: string;

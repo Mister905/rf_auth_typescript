@@ -1,13 +1,31 @@
 import { Action_Type } from "../action_types";
 
+interface I_product {
+  id: number;
+  name: string;
+  type: string;
+  weight: string;
+  inventory_count: number;
+}
+
+interface I_get_products_payload {
+  product_list: I_product[];
+  loading_products: boolean;
+}
+
 interface I_get_products {
   type: Action_Type.GET_PRODUCTS;
-  payload: object;
+  payload: I_get_products_payload;
+}
+
+interface I_get_product_payload {
+  product: I_product;
+  loading_product: boolean;
 }
 
 interface I_get_product {
   type: Action_Type.GET_PRODUCT;
-  payload: object;
+  payload: I_get_product_payload;
 }
 
 interface I_create_success {
@@ -22,7 +40,6 @@ interface I_create_error {
 
 interface I_clear_products {
   type: Action_Type.CLEAR_PRODUCTS;
-  payload: object;
 }
 
 interface I_clear_product {
@@ -32,10 +49,9 @@ interface I_clear_product {
 
 interface I_delete_product {
   type: Action_Type.DELETE_PRODUCT;
-  payload: object;
 }
 
-export type Action =
+export type Product_Action =
   | I_get_products
   | I_get_product
   | I_create_success
