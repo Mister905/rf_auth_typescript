@@ -1,36 +1,60 @@
-import { connect, ConnectedProps } from 'react-redux'
+import * as React from "react";
+import { connect } from "react-redux";
+import { Switch, Route } from "react-router-dom";
+import { RootState } from "./store";
+// Components
+import Landing from "./components/landing/Landing";
+// import Modal from "./components/modal/Modal";
+// import Header from "./components/header/Header";
+// import Products from "./components/products/Products";
+// import Login from "./components/login/Login";
+// import Register from "./components/register/Register";
+// import Create_Product from "./components/create_product/Create_Product";
+// import Update_Product from "./components/update_product/Update_Product";
+// import View_Product from "./components/view_product/View_Product";
+// import PrivateRoute from "./components/routing/PrivateRoute";
+import PublicRoute from "./components/routing/PublicRoute";
+// import { countersActions, countersSelectors } from '../features/counters';
+// import { FCCounter } from '../components';
 
-interface RootState {
-  isOn: boolean
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+});
+
+const dispatchProps = {
+  // onIncrement: countersActions.increment,
+};
+
+class App extends React.Component<{}, {}> {
+  render() {
+    return (
+      <div className="App">
+        {/* <Header /> */}
+        {/* {display_modal && <Modal />} */}
+        <Switch>
+          <PublicRoute exact path="/" component={Landing} />
+          {/* <PublicRoute exact path="/login" component={Login} />
+          <PublicRoute exact path="/register" component={Register} />
+          <PrivateRoute exact path="/products" component={Products} />
+          <PrivateRoute
+            exact
+            path="/create_product"
+            component={Create_Product}
+          />
+          <PrivateRoute
+            exact
+            path="/view_product/:id"
+            component={View_Product}
+          />
+          <PrivateRoute
+            exact
+            path="/update_product/:id"
+            component={Update_Product}
+          /> */}
+        </Switch>
+      </div>
+    );
+  }
 }
 
-const mapState = (state: RootState) => ({
-  isOn: state.isOn,
-})
-
-const mapDispatch = {
-  toggleOn: () => ({ type: 'TOGGLE_IS_ON' }),
-}
-
-const connector = connect(mapState, mapDispatch)
-
-// The inferred type will look like:
-// {isOn: boolean, toggleOn: () => void}
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-interface Props extends PropsFromRedux {
-  // backgroundColor: string
-}
-
-const MyComponent = (props: Props) => (
-  // <div style={{ backgroundColor: props.backgroundColor }}>
-  //   <button onClick={props.toggleOn}>
-  //     Toggle is {props.isOn ? 'ON' : 'OFF'}
-  //   </button>
-  // </div>
-  <div>
-    Hello
-  </div>
-)
-
-export default connector(MyComponent)
+export default connect(mapStateToProps, dispatchProps)(App);
