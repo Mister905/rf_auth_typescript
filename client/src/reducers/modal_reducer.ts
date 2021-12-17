@@ -21,6 +21,8 @@ export default function (
   state: I_initial_state = initial_state,
   action: Modal_Action
 ) {
+  console.log("DERP");
+  console.log(action.type);
   switch (action.type) {
     case Action_Type.DISPLAY_MODAL:
       return {

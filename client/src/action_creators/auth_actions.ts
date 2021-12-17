@@ -24,46 +24,49 @@ export const load_active_user = async () => {
   }
 };
 
-export const login_user = async (form_data: any, history: History) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+// export const login_user = async (form_data: any, history: History) => {
+export const login_user = async (form_data: any) => {
+  console.log("TEST");
+  console.log(form_data);
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
 
-  let request_body = JSON.stringify(form_data);
+  // let request_body = JSON.stringify(form_data);
 
-  try {
-    const res = await instance.post("/auth/login", request_body, config);
+  // try {
+  //   const res = await instance.post("/auth/login", request_body, config);
 
-    if (res.data.error) {
-      return (dispatch: Dispatch<Modal_Action>) => {
-        dispatch({
-          type: Action_Type.DISPLAY_MODAL,
-          payload: {
-            modal_title: "Error",
-            modal_body: "Unable to login",
-            modal_confirmation: "Ok",
-          },
-        });
-      };
-    } else {
-      return (dispatch: Dispatch<Auth_Action>) => {
-        dispatch({
-          type: Action_Type.LOGIN_SUCCESS,
-          payload: res.data,
-        });
+  //   if (res.data.error) {
+  //     return (dispatch: Dispatch<Modal_Action>) => {
+  //       dispatch({
+  //         type: Action_Type.DISPLAY_MODAL,
+  //         payload: {
+  //           modal_title: "Error",
+  //           modal_body: "Unable to login",
+  //           modal_confirmation: "Ok",
+  //         },
+  //       });
+  //     };
+  //   } else {
+  //     return (dispatch: Dispatch<Auth_Action>) => {
+  //       dispatch({
+  //         type: Action_Type.LOGIN_SUCCESS,
+  //         payload: res.data,
+  //       });
 
-        history.push("/products");
-      };
-    }
-  } catch (error) {
-    return (dispatch: Dispatch<Auth_Action>) => {
-      dispatch({
-        type: Action_Type.AUTH_ERROR,
-      });
-    };
-  }
+  //       // history.push("/products");
+  //     };
+  //   }
+  // } catch (error) {
+  //   return (dispatch: Dispatch<Auth_Action>) => {
+  //     dispatch({
+  //       type: Action_Type.AUTH_ERROR,
+  //     });
+  //   };
+  // }
 };
 
 export const register_user = async (form_data: any, history: History) => {
@@ -124,5 +127,19 @@ export const logout_user = async (history: History) => {
     });
 
     history.push("/");
+  };
+};
+
+export const test = () => {
+  console.log("TEST");
+  return async (dispatch: Dispatch<Modal_Action>) => {
+    dispatch({
+      type: Action_Type.DISPLAY_MODAL,
+      payload: {
+        modal_title: "Success",
+        modal_body: "TEST",
+        modal_confirmation: "Ok",
+      },
+    });
   };
 };

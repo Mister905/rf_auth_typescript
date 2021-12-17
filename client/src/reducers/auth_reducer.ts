@@ -25,6 +25,7 @@ export default function (
   state: I_initial_state = initial_state,
   action: Auth_Action
 ) {
+  console.log("auth_reducer");
   switch (action.type) {
     case Action_Type.USER_LOADED:
       return {
