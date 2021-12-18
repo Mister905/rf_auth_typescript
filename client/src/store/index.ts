@@ -1,11 +1,12 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import reducers from "../reducers";
-import redux_thunk from "redux-thunk";
+// import redux_thunk from "redux-thunk";
+import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 export const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(redux_thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

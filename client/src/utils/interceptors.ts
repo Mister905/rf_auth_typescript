@@ -8,22 +8,22 @@ import {
 } from "axios";
 
 const on_request = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  console.info(`[request] [${JSON.stringify(config)}]`);
+  // console.info(`[request] [${JSON.stringify(config)}]`);
   return config;
 };
 
 const on_request_error = (error: AxiosError): Promise<AxiosError> => {
-  console.error(`[request error] [${JSON.stringify(error)}]`);
+  // console.error(`[request error] [${JSON.stringify(error)}]`);
   return Promise.reject(error);
 };
 
 const on_response = (response: AxiosResponse): AxiosResponse => {
-  console.info(`[response] [${JSON.stringify(response)}]`);
+  // console.info(`[response] [${JSON.stringify(response)}]`);
   return response;
 };
 
 const on_response_error = (error: AxiosError): Promise<AxiosError> => {
-  console.error(`[response error] [${JSON.stringify(error)}]`);
+  // console.error(`[response error] [${JSON.stringify(error)}]`);
   return Promise.reject(error);
 };
 
