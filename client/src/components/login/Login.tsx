@@ -1,5 +1,4 @@
 import React from "react";
-// import { FormikProps, FormikValues, useFormik, withFormik } from "formik";
 import { withFormik, FormikProps, Form, Field, FormikBag } from "formik";
 import * as Yup from "yup";
 import { Link, withRouter } from "react-router-dom";
@@ -94,9 +93,12 @@ const Formik_Form = withFormik<I_props, I_login_form_values>({
     email: email || "",
     password: password || "",
   }),
-  validationSchema: Yup.object({
-    email: Yup.string().required(),
+  validationSchema: Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().required("Password is required"),
   }),
+  validateOnBlur: false,
+  validateOnChange: false,
   handleSubmit: (
     values: I_login_form_values,
     formikBag: FormikBag<I_props, I_login_form_values>

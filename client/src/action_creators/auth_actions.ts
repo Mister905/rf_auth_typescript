@@ -15,11 +15,14 @@ export const load_active_user =
     try {
       const res = await instance.get("/auth/load_active_user");
 
+      console.log(res);
+
       dispatch({
         type: Action_Type.USER_LOADED,
         payload: res.data,
       });
     } catch (error) {
+      console.log(error);
       dispatch({
         type: Action_Type.AUTH_ERROR,
       });
