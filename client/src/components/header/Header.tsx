@@ -8,11 +8,18 @@ import { History } from "history";
 import { Auth_Action } from "../../action_interfaces/auth_interface";
 import { Dispatch } from "redux";
 
+
+interface I_user {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
 interface I_auth {
-  access_token: null;
-  is_authenticated: false;
-  loading_user: true;
-  user: null;
+  access_token: string | null;
+  is_authenticated: boolean;
+  loading_user: boolean;
+  user: I_user | null;
 }
 
 interface I_props {

@@ -64,14 +64,14 @@ interface I_product {
 }
 
 interface I_initial_state {
-  product_list: I_product[] | null;
+  product_list: I_product[];
   loading_products: boolean;
   loading_product: boolean;
   product: I_product | null;
 }
 
 const initial_state: I_initial_state = {
-  product_list: null,
+  product_list: [],
   loading_products: true,
   loading_product: true,
   product: null,
