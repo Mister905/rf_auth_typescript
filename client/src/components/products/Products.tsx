@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { RootState } from "../../store";
 import { Modal_Action } from "../../action_interfaces/modal_interface";
 import { Product_Action } from "../../action_interfaces/products_interface";
-import { Dispatch } from "redux";
-import { compose } from "redux";
+import { compose, Dispatch } from "redux";
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import { Link } from "react-router-dom";
@@ -103,7 +102,6 @@ class Products extends React.Component<I_props, {}> {
   }
 
   display_modal = () => {
-    console.log(this.props);
     this.props.display_modal("Test Title", "Test Body", "Confirm", "Cancel");
   };
 
@@ -117,7 +115,7 @@ class Products extends React.Component<I_props, {}> {
 
     return (
       <ul className="collection">
-        {product_list.map(function (product) {
+        {product_list.map((product) => {
           return (
             <li className="collection-item" key={product.id}>
               <div className="row">
@@ -150,9 +148,9 @@ class Products extends React.Component<I_props, {}> {
                             Cancel
                           </a>
                           <a
-                            // onClick={() =>
-                            //   this.handle_delete_product(product.id)
-                            // }
+                            onClick={() =>
+                              this.handle_delete_product(product.id)
+                            }
                             className="modal-close waves-effect waves-green btn-flat"
                           >
                             Delete
@@ -171,7 +169,6 @@ class Products extends React.Component<I_props, {}> {
   };
 
   render() {
-    console.log(this.props);
     const { loading_products } = this.props.products;
     return (
       <div className="container mt-50">
@@ -207,5 +204,10 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 export default compose<any>(
-  connect(mapStateToProps, { display_modal, get_products, clear_products, delete_product })
+  connect(mapStateToProps, {
+    display_modal,
+    get_products,
+    clear_products,
+    delete_product,
+  })
 )(Products);

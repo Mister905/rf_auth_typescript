@@ -25,20 +25,6 @@ mkdir hooks
 touch ./hooks/index.ts
 
 
-# Typing the connect higher order component !!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Install Client packages
 
 /home/jamesm/rf_auth_typescript/client
@@ -61,8 +47,6 @@ venv ❯ yarn add axios react-router-dom redux react-redux redux-thunk formik yu
     "start_api": "cd ../api && venv/bin/flask run --no-debugger",
     "dev": "concurrently \"yarn start_api\" \"yarn start\""
 },
-
-
 
 
 # Configure Project for Git
@@ -104,29 +88,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 
 
-
 npm i concurrently
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Initialize Back end
@@ -209,3 +171,10 @@ flask db init
 flask db_create
 
 flask db_seed
+
+
+
+
+tsconfig.json
+
+"noImplicitThis": false,

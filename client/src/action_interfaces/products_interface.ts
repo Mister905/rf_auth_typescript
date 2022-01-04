@@ -44,7 +44,6 @@ interface I_clear_products {
 
 interface I_clear_product {
   type: Action_Type.CLEAR_PRODUCT;
-  payload: object;
 }
 
 interface I_delete_product {

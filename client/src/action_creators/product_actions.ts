@@ -5,12 +5,6 @@ import { Action_Type } from "../action_types";
 import { History } from "history";
 import instance from "../utils/axios";
 
-interface I_product {
-  product: I_product;
-  product_list: I_product[];
-  loading_products: boolean;
-  loading_product: boolean;
-}
 
 interface I_product_form_values {
   id: number;
@@ -67,6 +61,18 @@ export const clear_products =
     try {
       dispatch({
         type: Action_Type.CLEAR_PRODUCTS,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  export const clear_product =
+  () => async (dispatch: Dispatch<Product_Action>) => {
+    try {
+      dispatch({
+        type: Action_Type.CLEAR_PRODUCT,
       });
     } catch (error) {
       console.log(error);
