@@ -18,6 +18,11 @@ import { load_active_user } from "./action_creators/auth_actions";
 import { Auth_Action } from "./action_interfaces/auth_interface";
 import { Dispatch } from "redux";
 import { compose } from "redux";
+import { useAppSelector, useAppDispatch } from "./store/hooks";
+
+
+// export const useAppDispatch = () => useDispatch<AppDispatch>()
+// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 interface I_auth {
   access_token: null;
@@ -40,56 +45,34 @@ interface I_props {
   load_active_user: () => Dispatch<Auth_Action>;
 }
 
-class App extends React.Component<I_props, {}> {
-  componentDidMount = () => {
-    this.props.load_active_user();
-  };
 
-  componentDidUpdate = (prevProps: I_props) => {
-    if (this.props.auth.is_authenticated !== prevProps.auth.is_authenticated) {
-      if (this.props.auth.is_authenticated) this.props.load_active_user();
-    }
-  };
+function App() {
 
-  render() {
+  const dispatch = useAppDispatch();
 
-    const { display_modal } = this.props.modal;
+  const is_authenticated = useAppSelector(state => state.auth.is_authenticated);
 
-    return (
-      <div className="App">
-        <Header />
-        {display_modal && <Modal />}
-        <Switch>
-          <PublicRoute exact path="/" component={Landing} />
-          <PublicRoute exact path="/login" component={Login} />
-          <PublicRoute exact path="/register" component={Register} />
-          <PrivateRoute exact path="/products" component={Products} />
-          <PrivateRoute
-            exact
-            path="/view_product/:id"
-            component={View_Product}
-          />
-          <PrivateRoute
-            exact
-            path="/create_product"
-            component={Create_Product}
-          />
-          <PrivateRoute
-            exact
-            path="/update_product/:id"
-            component={Update_Product}
-          />
-        </Switch>
-      </div>
-    );
-  }
+  const display_modal = useAppSelector(state => state.modal.display_modal);
+
+  return (
+    <div className="App">
+      <Header />
+      {/* {display_modal && <Modal />} */}
+      <Switch>
+        <PublicRoute exact path="/" component={Landing} />
+        <PublicRoute exact path="/login" component={Login} />
+        <PublicRoute exact path="/register" component={Register} />
+        <PrivateRoute exact path="/products" component={Products} />
+        <PrivateRoute exact path="/create_product" component={Create_Product} />
+        <PrivateRoute exact path="/view_product/:id" component={View_Product} />
+        <PrivateRoute
+          exact
+          path="/update_product/:id"
+          component={Update_Product}
+        />
+      </Switch>
+    </div>
+  );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  auth: state.auth,
-  modal: state.modal,
-});
-
-export default compose<any>(connect(mapStateToProps, { load_active_user }))(
-  App
-);
+export default App;

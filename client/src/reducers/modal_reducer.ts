@@ -6,7 +6,7 @@ interface I_initial_state {
   modal_title: string;
   modal_body: string;
   modal_confirmation: string;
-  modal_decline: string;
+  modal_decline?: string;
 }
 
 const initial_state: I_initial_state = {
@@ -20,7 +20,7 @@ const initial_state: I_initial_state = {
 export default function (
   state: I_initial_state = initial_state,
   action: Modal_Action
-) {
+): I_initial_state {
   switch (action.type) {
     case Action_Type.DISPLAY_MODAL:
       return {
