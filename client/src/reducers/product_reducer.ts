@@ -10,7 +10,7 @@ interface I_product {
 }
 
 interface I_initial_state {
-  product_list: I_product[];
+  product_list: I_product[] | null;
   loading_products: boolean;
   loading_product: boolean;
   product: I_product | null;
@@ -26,7 +26,7 @@ const initial_state: I_initial_state = {
 export default function (
   state: I_initial_state = initial_state,
   action: Product_Action
-) {
+): I_initial_state {
   switch (action.type) {
     case Action_Type.GET_PRODUCTS:
       return {

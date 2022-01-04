@@ -24,7 +24,7 @@ const initial_state: I_initial_state = {
 export default function (
   state: I_initial_state = initial_state,
   action: Auth_Action
-) {
+): I_initial_state {
   switch (action.type) {
     case Action_Type.USER_LOADED:
       return {
