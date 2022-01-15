@@ -1,7 +1,5 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { Switch, Route } from "react-router-dom";
-import { RootState } from "./store";
+import { useEffect } from "react";
+import { Switch } from "react-router-dom";
 // Components
 import Landing from "./components/landing/Landing";
 import Modal from "./components/modal/Modal";
@@ -17,12 +15,8 @@ import PublicRoute from "./components/routing/PublicRoute";
 import { load_active_user } from "./action_creators/auth_actions";
 import { Auth_Action } from "./action_interfaces/auth_interface";
 import { Dispatch } from "redux";
-import { compose } from "redux";
-import { useAppSelector, useAppDispatch } from "./store/hooks";
-
-
-// export const useAppDispatch = () => useDispatch<AppDispatch>()
-// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+import { useAppSelector } from "./store/hooks";
+import { useDispatch } from "react-redux";
 
 interface I_auth {
   access_token: null;
@@ -45,19 +39,23 @@ interface I_props {
   load_active_user: () => Dispatch<Auth_Action>;
 }
 
+const App: React.FC<{}> = () => {
+  const dispatch = useDispatch();
 
-function App() {
+  const is_authenticated = useAppSelector(
+    (state) => state.auth.is_authenticated
+  );
 
-  const dispatch = useAppDispatch();
+  const display_modal = useAppSelector((state) => state.modal.display_modal);
 
-  const is_authenticated = useAppSelector(state => state.auth.is_authenticated);
-
-  const display_modal = useAppSelector(state => state.modal.display_modal);
+  useEffect(() => {
+    dispatch(load_active_user());
+  }, [is_authenticated]);
 
   return (
     <div className="App">
       <Header />
-      {/* {display_modal && <Modal />} */}
+      {display_modal && <Modal />}
       <Switch>
         <PublicRoute exact path="/" component={Landing} />
         <PublicRoute exact path="/login" component={Login} />
@@ -73,6 +71,6 @@ function App() {
       </Switch>
     </div>
   );
-}
+};
 
 export default App;
