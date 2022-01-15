@@ -6,13 +6,6 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-interface I_register_form_values {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  confirm_password: string;
-}
 
 const Register: React.FC<{}> = () => {
   const history = useHistory();

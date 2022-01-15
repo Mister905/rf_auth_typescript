@@ -1,121 +1,62 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { RootState } from "../../store";
-import { Modal_Action } from "../../action_interfaces/modal_interface";
-import { Product_Action } from "../../action_interfaces/products_interface";
-import { compose, Dispatch } from "redux";
+import { useEffect } from "react";
 import M from "materialize-css";
-import "materialize-css/dist/css/materialize.min.css";
+import { useAppSelector } from "../../store/hooks";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Preloader from "../preloader/Preloader";
-import {
-  get_products,
-  clear_products,
-  delete_product,
-} from "../../action_creators/product_actions";
+import { get_products, delete_product } from "../../action_creators/product_actions";
 import { display_modal } from "../../action_creators/modal_actions";
+import Preloader from "../preloader/Preloader";
 
-interface I_modal {
-  display_modal: boolean;
-  modal_title: string;
-  modal_body: string;
-  modal_confirmation: string;
-  modal_decline: string;
-}
 
-interface I_product {
-  id: number;
-  name: string;
-  type: string;
-  weight: string;
-  inventory_count: number;
-}
+const Products: React.FC<{}> = () => {
 
-interface I_products {
-  product_list: I_product[];
-  loading_products: boolean;
-  loading_product: boolean;
-  product: I_product | null;
-}
+  const dispatch = useDispatch();
 
-interface I_props {
-  modal: I_modal;
-  products: I_products;
-  display_modal: (
-    modal_title: string,
-    modal_body: string,
-    modal_confirmation: string,
-    modal_decline: string
-  ) => Dispatch<Modal_Action>;
+  const product_list = useAppSelector((state) => state.product.product_list);
 
-  get_products: () => Dispatch<Product_Action>;
+  const loading_products = useAppSelector((state) => state.product.loading_products);
 
-  clear_products: () => Dispatch<Product_Action>;
+  useEffect(() => {
+    dispatch(get_products());
 
-  delete_product: (product_id: number) => Dispatch<Product_Action>;
-}
+    const options = {
+      onOpenStart: () => {
+        console.log("Open Start");
+      },
+      onOpenEnd: () => {
+        console.log("Open End");
+      },
+      onCloseStart: () => {
+        console.log("Close Start");
+      },
+      onCloseEnd: () => {
+        console.log("Close End");
+      },
+      inDuration: 250,
+      outDuration: 250,
+      opacity: 0.5,
+      dismissible: false,
+      startingTop: "4%",
+      endingTop: "10%",
+    };
 
-class Products extends React.Component<I_props, {}> {
-  componentDidMount() {
-    this.props.clear_products();
+    var elems = document.querySelectorAll(".modal");
 
-    // Simulate Async
-    setTimeout(this.props.get_products, 5000);
+    M.Modal.init(elems, options);
+  }, [loading_products]);
 
-    this.props.get_products();
+  function handle_display_modal() {
+    dispatch(display_modal("Test Title", "Test Body", "Confirm", "Cancel"));
   }
 
-  componentDidUpdate(prevProps: I_props) {
-    if (this.props.products.product_list !== prevProps.products.product_list) {
-      const options = {
-        onOpenStart: () => {
-          console.log("Open Start");
-        },
-        onOpenEnd: () => {
-          console.log("Open End");
-        },
-        onCloseStart: () => {
-          console.log("Close Start");
-        },
-        onCloseEnd: () => {
-          console.log("Close End");
-        },
-        inDuration: 250,
-        outDuration: 250,
-        opacity: 0.5,
-        dismissible: false,
-        startingTop: "4%",
-        endingTop: "10%",
-      };
-
-      var elems = document.querySelectorAll(".modal");
-
-      M.Modal.init(elems, options);
-    }
-
-    if (
-      this.props.products.loading_products !==
-      prevProps.products.loading_products
-    ) {
-      this.props.get_products();
-    }
+  function handle_delete_product(product_id: number) {
+    dispatch(delete_product(product_id));
   }
 
-  display_modal = () => {
-    this.props.display_modal("Test Title", "Test Body", "Confirm", "Cancel");
-  };
-
-  handle_delete_product = (product_id: number) => {
-    this.props.delete_product(product_id);
-  };
-
-  output_products = () => {
-    
-    const { product_list } = this.props.products;
-
+  function output_products() {
     return (
       <ul className="collection">
-        {product_list.map((product) => {
+        {product_list?.map(function (product) {
           return (
             <li className="collection-item" key={product.id}>
               <div className="row">
@@ -148,9 +89,7 @@ class Products extends React.Component<I_props, {}> {
                             Cancel
                           </a>
                           <a
-                            onClick={() =>
-                              this.handle_delete_product(product.id)
-                            }
+                            onClick={() => handle_delete_product(product.id)}
                             className="modal-close waves-effect waves-green btn-flat"
                           >
                             Delete
@@ -163,51 +102,36 @@ class Products extends React.Component<I_props, {}> {
               </div>
             </li>
           );
-        }, this)}
+        })}
       </ul>
     );
-  };
+  }
 
-  render() {
-    const { loading_products } = this.props.products;
-    return (
-      <div className="container mt-50">
-        <div className="row">
-          <div className="col m4 offset-m8">
-            <div className="row">
-              <div className="col m6">
-                <button onClick={this.display_modal} className="btn">
-                  Display Modal
-                </button>
-              </div>
-              <div className="col m6">
-                <Link to={"/create_product"} className="btn">
-                  Create Product
-                </Link>
-              </div>
+  return (
+    <div className="container mt-50">
+      <div className="row">
+        <div className="col m4 offset-m8">
+          <div className="row">
+            <div className="col m6">
+              <button onClick={handle_display_modal} className="btn">
+                Display Modal
+              </button>
+            </div>
+            <div className="col m6">
+              <Link to={"/create_product"} className="btn">
+                Create Product
+              </Link>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col m6 offset-m3 align-center">
-            {loading_products ? <Preloader /> : this.output_products()}
-          </div>
+      </div>
+      <div className="row">
+        <div className="col m6 offset-m3 align-center">
+          {loading_products ? <Preloader /> : output_products()}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const mapStateToProps = (state: RootState) => ({
-  modal: state.modal,
-  products: state.product,
-});
-
-export default compose<any>(
-  connect(mapStateToProps, {
-    display_modal,
-    get_products,
-    clear_products,
-    delete_product,
-  })
-)(Products);
+export default Products;

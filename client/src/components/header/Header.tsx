@@ -1,41 +1,25 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React from "react";
+import { Link } from "react-router-dom";
 import { logout_user } from "../../action_creators/auth_actions";
-import { RootState } from "../../store";
-import { History } from "history";
-import { Auth_Action } from "../../action_interfaces/auth_interface";
-import { Dispatch } from "redux";
+import { useAppSelector } from "../../store/hooks";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
+const Header: React.FC<{}> = () => {
+  const history = useHistory();
 
-interface I_user {
-  first_name: string;
-  last_name: string;
-  email: string;
-}
+  const dispatch = useDispatch();
 
-interface I_auth {
-  access_token: string | null;
-  is_authenticated: boolean;
-  loading_user: boolean;
-  user: I_user | null;
-}
+  const is_authenticated = useAppSelector(
+    (state) => state.auth.is_authenticated
+  );
 
-interface I_props {
-  auth: I_auth;
-  history: History;
-  logout_user: (history: History) => Dispatch<Auth_Action>;
-}
+  function handle_logout() {
+    dispatch(logout_user(history));
+  }
 
-class Header extends React.Component<I_props, {}> {
-  handle_logout = () => {
-    this.props.logout_user(this.props.history);
-  };
-
-  render() {
-    const { is_authenticated } = this.props.auth;
-    return (
+  return (
+    <div>
       <nav>
         <div className="nav-wrapper">
           <Link to={"/"} className="brand-logo">
@@ -44,7 +28,7 @@ class Header extends React.Component<I_props, {}> {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
               {is_authenticated ? (
-                <a onClick={this.handle_logout}>Logout</a>
+                <a onClick={handle_logout}>Logout</a>
               ) : (
                 <Link to={"/login"}>Login</Link>
               )}
@@ -52,15 +36,8 @@ class Header extends React.Component<I_props, {}> {
           </ul>
         </div>
       </nav>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const mapStateToProps = (state: RootState) => ({
-  auth: state.auth,
-});
-
-export default compose<any>(
-  connect(mapStateToProps, { logout_user }),
-  withRouter
-)(Header);
+export default Header;
