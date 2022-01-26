@@ -33,6 +33,7 @@ export default function (
         ...state,
         product_list: action.payload.product_list,
         loading_products: false,
+        loading_product: true
       };
 
     case Action_Type.GET_PRODUCT:

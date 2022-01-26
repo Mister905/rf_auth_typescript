@@ -3,22 +3,24 @@ import M from "materialize-css";
 import { useAppSelector } from "../../store/hooks";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { get_products, delete_product } from "../../action_creators/product_actions";
+import {
+  get_products,
+  delete_product,
+} from "../../action_creators/product_actions";
 import { display_modal } from "../../action_creators/modal_actions";
 import Preloader from "../preloader/Preloader";
 
-
 const Products: React.FC<{}> = () => {
-
   const dispatch = useDispatch();
 
   const product_list = useAppSelector((state) => state.product.product_list);
 
-  const loading_products = useAppSelector((state) => state.product.loading_products);
+  const loading_products = useAppSelector(
+    (state) => state.product.loading_products
+  );
 
   useEffect(() => {
     dispatch(get_products());
-
     const options = {
       onOpenStart: () => {
         console.log("Open Start");
@@ -42,6 +44,8 @@ const Products: React.FC<{}> = () => {
 
     var elems = document.querySelectorAll(".modal");
 
+    console.log(elems);
+
     M.Modal.init(elems, options);
   }, [loading_products]);
 
@@ -50,6 +54,7 @@ const Products: React.FC<{}> = () => {
   }
 
   function handle_delete_product(product_id: number) {
+    console.log("handle_delete_product");
     dispatch(delete_product(product_id));
   }
 

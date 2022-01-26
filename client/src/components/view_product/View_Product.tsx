@@ -1,46 +1,35 @@
 import React, { useEffect } from "react";
-import { withFormik, FormikProps, Form, Field, FormikBag } from "formik";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { FormikProps } from "formik";
+import { RouteComponentProps } from "react-router-dom";
 import { get_product } from "../../action_creators/product_actions";
 import Preloader from "../preloader/Preloader";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/hooks";
-import { RouteComponentProps } from "react-router-dom";
-
 
 interface I_product {
   id: number;
-  name?: string;
-  type?: string;
-  weight?: string;
-  inventory_count?: number;
-}
-
-interface I_products {
-  product_list: I_product[];
-  loading_products: boolean;
-  loading_product: boolean;
-  product: I_product | null;
+  name: string;
+  type: string;
+  weight: string;
+  inventory_count: number;
 }
 
 interface I_view_product_form_values {
-  name?: string;
-  type?: string;
-  weight?: string;
-  inventory_count?: number;
+  id: number;
+  name: string;
+  type: string;
+  weight: string;
+  inventory_count: number;
 }
 
 interface I_props extends FormikProps<I_view_product_form_values> {
   history: History;
   get_product: (id: number) => Promise<void>;
-  clear_product: () => Promise<void>;
-  product: I_product;
-  products: I_products;
 }
 
-
-const View_Product: React.FC<RouteComponentProps> = (props) => {
-
+const View_Product: React.FC<I_props & RouteComponentProps> = (props) => {
   const dispatch = useDispatch();
 
   const loading_product = useAppSelector(
@@ -68,19 +57,19 @@ const View_Product: React.FC<RouteComponentProps> = (props) => {
       <div className="container">
         <div className="row mt-50">
           <div className="col m4 offset-m8">
-            <Link to={`/update_product/${product.id}`} className="btn">
+            <Link to={`/update_product/${product!.id}`} className="btn">
               Update
             </Link>
           </div>
         </div>
-        <View_Product_Form props={product} />
+        <View_Product_Form {...product!} />
       </div>
     );
   }
 };
 
-const View_Product_Form = (props) => {
-  const { name, type, weight, inventory_count } = props.props;
+const View_Product_Form: React.FC<I_product> = (product: I_product) => {
+  const { name, type, weight, inventory_count } = product;
 
   const { handleSubmit, getFieldProps } = useFormik({
     initialValues: {
@@ -89,6 +78,7 @@ const View_Product_Form = (props) => {
       weight: weight || "",
       inventory_count: inventory_count || "",
     },
+    onSubmit: () => {},
   });
   return (
     <form onSubmit={handleSubmit}>
@@ -97,13 +87,7 @@ const View_Product_Form = (props) => {
           <label htmlFor="name" className="active custom-label">
             Name
           </label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            disabled
-            {...getFieldProps("name")}
-          />
+          <input id="name" type="text" disabled {...getFieldProps("name")} />
         </div>
       </div>
       <div className="row mt-50">
@@ -111,13 +95,7 @@ const View_Product_Form = (props) => {
           <label htmlFor="type" className="active custom-label">
             Type
           </label>
-          <input
-            id="type"
-            type="text"
-            name="type"
-            disabled
-            {...getFieldProps("type")}
-          />
+          <input id="type" type="text" disabled {...getFieldProps("type")} />
         </div>
       </div>
       <div className="row mt-50">
@@ -128,7 +106,6 @@ const View_Product_Form = (props) => {
           <input
             id="weight"
             type="text"
-            name="weight"
             disabled
             {...getFieldProps("weight")}
           />
@@ -142,7 +119,6 @@ const View_Product_Form = (props) => {
           <input
             id="inventory_count"
             type="number"
-            name="inventory_count"
             disabled
             {...getFieldProps("inventory_count")}
           />

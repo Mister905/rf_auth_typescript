@@ -7,11 +7,11 @@ import instance from "../utils/axios";
 
 
 interface I_product_form_values {
-  id: number;
+  id?: number;
   name: string;
   type: string;
   weight: string;
-  inventory_count: number;
+  inventory_count?: number;
 }
 
 export const get_products =
