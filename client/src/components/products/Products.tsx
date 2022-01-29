@@ -21,6 +21,10 @@ const Products: React.FC<{}> = () => {
 
   useEffect(() => {
     dispatch(get_products());
+  }, []);
+
+  useEffect(() => {
+
     const options = {
       onOpenStart: () => {
         console.log("Open Start");
@@ -42,12 +46,10 @@ const Products: React.FC<{}> = () => {
       endingTop: "10%",
     };
 
-    var elems = document.querySelectorAll(".modal");
-
-    console.log(elems);
+    var elems = document.querySelectorAll(".product_modal");
 
     M.Modal.init(elems, options);
-  }, [loading_products]);
+  }, [product_list]);
 
   function handle_display_modal() {
     dispatch(display_modal("Test Title", "Test Body", "Confirm", "Cancel"));
@@ -81,7 +83,7 @@ const Products: React.FC<{}> = () => {
                         Delete
                       </a>
 
-                      <div id={`modal_${product.id}`} className="modal">
+                      <div id={`modal_${product.id}`} className="modal product_modal">
                         <div className="modal-content">
                           <h4>Delete Product</h4>
                           <p>

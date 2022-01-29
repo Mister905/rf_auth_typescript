@@ -10,9 +10,14 @@ const Modal: React.FC<{}> = () => {
   const { modal_title, modal_body, modal_confirmation, modal_decline } =
     useAppSelector((state) => state.modal);
 
+    const display_modal = useAppSelector(
+      (state) => state.modal.display_modal
+    );
+
   useEffect(() => {
     const options = {
       onCloseEnd: () => {
+        console.log(instance);
         instance.close();
         instance.destroy();
         dispatch(close_modal());
@@ -30,7 +35,8 @@ const Modal: React.FC<{}> = () => {
     let instance = M.Modal.getInstance(document.querySelector("#test")!);
 
     instance.open();
-  }, []);
+
+  }, [display_modal]);
 
   return (
     <div>
